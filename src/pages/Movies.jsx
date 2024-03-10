@@ -7,6 +7,7 @@ export default function Movies() {
 	const { quarry } = useParams();
 	const [searchMovies, setSearchMovies] = useState([]);
 	const [genres, setGenres] = useState([]);
+	const [show, setShow] = useState(true);
 	// const { genres } = useContext(MoviesContext);
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -16,6 +17,9 @@ export default function Movies() {
 			const response2 = await FetchApi('https://api.themoviedb.org/3/genre/movie/list?api_key=be1953a7184916165a031846e35362e5');
 			setSearchMovies(response?.results);
 			setGenres(response2?.genres);
+			setTimeout(() => {
+				setShow(false);
+			}, 1000);
 		})();
 	}, []);
 	return (
@@ -23,7 +27,7 @@ export default function Movies() {
 			<main className="flex-1 grid text-white min-h-[calc(100vh - _theme(spacing.8))_1fr] gap-4 px-4 pb-4">
 				<h1 className="font-semibold text-lg md:text-2xl lg:text-5xl">Search results...</h1>
 				<div className="max-w-6xl w-full grid gap-4">
-					{searchMovies && searchMovies.length > 0 ? (
+					{show && searchMovies?.length > 0 ? (
 						<div className="flex flex-col gap-4">
 							{searchMovies?.map((movie, i) => (
 								<div key={i} className="flex flex-row gap-1.5">
@@ -66,7 +70,7 @@ export default function Movies() {
 							))}
 						</div>
 					) : (
-						<div className="flex flex-col items-center">
+						<div className="flex flex-col h-screen items-center">
 							<h1 className="text-[calc( 100vh - _theme(spacing.8))"> Sorry no results found for "{quarry}" go back and try again</h1>
 							<Link className="text-center p-2 px-20 rounded-full mt-5	 bg-blue-400" to={'/'}>
 								Back
