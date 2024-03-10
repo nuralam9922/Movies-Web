@@ -30,6 +30,7 @@ function Home() {
 	} = useContext(MoviesContext);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		if (!initialized) {
 			fetchData();
 		}
