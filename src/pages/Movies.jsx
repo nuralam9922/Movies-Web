@@ -62,8 +62,11 @@ export default function Movies() {
 
 	return (
 		<div className="flex flex-col min-h-screen">
-			<main className="flex-1 grid text-white min-h-[calc(100vh - _theme(spacing.8))_1fr] gap-4 px-4 pb-4">
-				<h1 className="font-semibold text-lg md:text-2xl lg:text-5xl">Search results...</h1>
+			<main className="flex-1 grid text-white min-h-[calc(100vh - _theme(spacing.8))_1fr] gap-4 px-4 pb-5">
+				<div className="max-w-6xl w-full mb-10">
+					<h1 className="font-semibold text-lg md:text-2xl lg:text-5xl text-center -mb-5 mt-10">Search results...</h1>
+					<Search className="w-full " />
+				</div>
 				<div className="max-w-6xl w-full grid gap-4">
 					{loading ? (
 						// Render skeleton UI while loading
@@ -109,7 +112,7 @@ export default function Movies() {
 						// Display message when no search results are found
 						<div className="flex flex-col h-screen items-center">
 							<h1 className="text-[calc(100vh - _theme(spacing.8))]">Sorry no results found for "{quarry}" go back and try again</h1>
-							<Search />
+
 							<Link className="text-center p-2 px-20 rounded-full mt-5 bg-blue-400" to={'/'}>
 								Back
 							</Link>

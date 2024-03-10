@@ -14,10 +14,8 @@ function Search() {
 
 	const handleChange = (e) => {
 		setSearch(e.target.value);
-		console.log(e.target.value);
 		if (e.key === 'Enter') {
 			handleSearch();
-			console.log(search);
 		}
 	};
 

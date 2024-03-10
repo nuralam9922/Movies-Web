@@ -209,8 +209,10 @@ export default function MoviesDetails() {
 						))}
 					</div>
 
-					{<MoviesCaracolSection movieData={similar} moviesType="Similar Movies" hideViewAll="true" />}
-					<MoviesCaracolSection movieData={recommendations} moviesType="recommendations Movies" hideViewAll="true" />
+					{similar.results.length > 0 && <MoviesCaracolSection movieData={similar} moviesType="similar Movies" hideViewAll="true" />}
+					{recommendations.results.length > 0 && (
+						<MoviesCaracolSection movieData={recommendations} moviesType="recommendations Movies" hideViewAll="true" />
+					)}
 				</main>
 			)}
 		</div>
