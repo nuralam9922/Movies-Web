@@ -5,13 +5,16 @@ import { FetchApi } from '../api/FetchApi';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 function ViewAll() {
+	useEffect(() => {
+		console.log('useEffect called');
+		window.scrollTo(0, 0);
+	}, []);
 	const { id } = useParams();
 	const [movies, setMovies] = useState([]);
 	const [page, setPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
 
 	useEffect(() => {
-		window.scrollTo(0, 0);
 		const fetchData = async () => {
 			try {
 				let url;
@@ -35,6 +38,7 @@ function ViewAll() {
 
 		fetchData();
 	}, [id, page]);
+	console.log(movies);
 
 	const fetchMoreData = () => {
 		setPage((prevPage) => prevPage + 1);
@@ -49,7 +53,7 @@ function ViewAll() {
 				loader={
 					<div className="px-6">
 						<div className="animate-pulse h-screen py-8 gap-5 items-center justify-center grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-							{[...Array(30)].map((_, i) => (
+							{[...Array(10)].map((_, i) => (
 								<div key={i} className=" text-white duration-200 snap-start">
 									{/* Skeleton image */}
 									<div className="rounded-md bg-gray-300 hover:scale-105 duration-300 cursor-pointer w-full h-52 aspect-w-2 aspect-h-3">
