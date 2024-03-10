@@ -6,6 +6,7 @@ import { MoviesContext } from '../context/MoviesProvider';
 import Rating from '../components/Rating';
 
 export default function MoviesDetails() {
+	window.scrollTo(0, 0);
 	const { id } = useParams();
 	const { genres } = useContext(MoviesContext);
 	const [movieDetails, setMovieDetails] = useState();
@@ -17,8 +18,7 @@ export default function MoviesDetails() {
 	const [recommendations, setRecommendations] = useState([]);
 
 	const [loading, setLoading] = useState(true);
-	window.scrollTo(0, 0);
-	
+
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
@@ -63,8 +63,9 @@ export default function MoviesDetails() {
 					<section className="mb-8">
 						<div className="relative ">
 							<img
+								loading="lazy"
 								alt="The Last Human Season 1"
-								className="object-left-top object-cover rounded-lg w-full min-h-52 lg:max-h-[30rem]"
+								className="object-left-top object-cover rounded-lg w-full min-h-52 lg:max-h-[40rem]"
 								src={`https://image.tmdb.org/t/p/original/${images?.posters?.slice(0, 1).map((x) => x?.file_path)}`}
 							/>
 							<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
@@ -154,20 +155,20 @@ export default function MoviesDetails() {
 					<h1 className="text-xl font-semibold mt-10 mb-10">Images</h1>
 					<div className="w-full   mt-30 mb-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
 						{images?.backdrops?.slice(0, 10).map((item) => (
-							<div key={item?.file_path} className="w-full bg-slate-100">
+							<div key={item?.file_path} className="w-full bg-slate-100 min-h-32">
 								<img
 									loading="lazy"
 									key={item?.file_path}
 									src={`https://image.tmdb.org/t/p/original/${item?.file_path}`}
 									alt=""
-									className="w-full"
+									className="w-full h-full object-cover"
 								/>
 							</div>
 						))}
 					</div>
 
-					{similar?.length > 0 && <MoviesCaracolSection movieData={similar} moviesType="Similar Movies" />}
-					<MoviesCaracolSection movieData={recommendations} moviesType="recommendations Movies" />
+					{<MoviesCaracolSection movieData={similar} moviesType="Similar Movies" hideViewAll="true" />}
+					<MoviesCaracolSection movieData={recommendations} moviesType="recommendations Movies" hideViewAll="true" />
 				</main>
 			)}
 		</div>

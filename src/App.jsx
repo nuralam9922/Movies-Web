@@ -1,6 +1,8 @@
+// App.js
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import ErrorPage from '../src/pages/ErrorPage'; // Import the ErrorPage component
 
 // Lazy load components
 const Home = React.lazy(() => import('./pages/Home'));
@@ -22,9 +24,11 @@ function App() {
 				>
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="movies" element={<Movies />} />
+						<Route path="movies/:quarry" element={<Movies />} />
 						<Route path="browse-all/:id" element={<ViewAll />} />
 						<Route path="movie/:id" element={<MoviesDetails />} />
+						{/* Route for Error Page */}
+						<Route path="*" element={<ErrorPage />} />
 					</Routes>
 				</Suspense>
 			</main>

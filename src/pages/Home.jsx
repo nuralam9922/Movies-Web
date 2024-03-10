@@ -63,7 +63,7 @@ function Home() {
 	};
 	// console.log(bengaliMovies);
 	return (
-		<div className="mx-auto w-full">
+		<div className="mx-auto w-full overflow-hidden">
 			{!initialized ? (
 				<div className="animate-pulse py-8 space-y-8">
 					{/* Banner skeleton */}

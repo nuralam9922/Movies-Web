@@ -11,6 +11,7 @@ function ViewAll() {
 	const [hasMore, setHasMore] = useState(true);
 
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		const fetchData = async () => {
 			try {
 				let url;
@@ -45,7 +46,15 @@ function ViewAll() {
 				dataLength={movies.length}
 				next={fetchMoreData}
 				hasMore={hasMore}
-				loader={<h4>Loading...</h4>}
+				loader={
+					<div className="px-6">
+						<div className="animate-pulse h-screen py-8 space-x-4 items-center justify-center  grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+							{[...Array(20)].map((_, i) => (
+								<div key={i} className="rounded-lg bg-gray-700 h-60 ml-2 mt-5" />
+							))}
+						</div>
+					</div>
+				}
 				endMessage={<p>No more movies to load</p>}
 			>
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-hidden">
