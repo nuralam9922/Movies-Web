@@ -48,9 +48,20 @@ function ViewAll() {
 				hasMore={hasMore}
 				loader={
 					<div className="px-6">
-						<div className="animate-pulse h-screen py-8 space-x-4 items-center justify-center  grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-							{[...Array(20)].map((_, i) => (
-								<div key={i} className="rounded-lg bg-gray-700 h-60 ml-2 mt-5" />
+						<div className="animate-pulse h-screen py-8 gap-5 items-center justify-center grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+							{[...Array(30)].map((_, i) => (
+								<div key={i} className=" text-white duration-200 snap-start">
+									{/* Skeleton image */}
+									<div className="rounded-md bg-gray-300 hover:scale-105 duration-300 cursor-pointer w-full h-52 aspect-w-2 aspect-h-3">
+										{/* Placeholder for image */}
+									</div>
+									{/* Skeleton title */}
+									<div className="h-6 bg-gray-300 rounded-md animate-pulse mt-2 w-full" />
+									{/* Skeleton description */}
+									<div className="h-4 bg-gray-300 rounded-md animate-pulse mt-1 w-full" />
+									{/* Skeleton rating */}
+									<div className="h-4 bg-gray-300 rounded-md animate-pulse mt-1 w-full" />
+								</div>
 							))}
 						</div>
 					</div>

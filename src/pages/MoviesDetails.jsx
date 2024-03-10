@@ -45,17 +45,58 @@ export default function MoviesDetails() {
 	return (
 		<div className="bg-[#0f0f0f] min-w-full min-h-screen text-white">
 			{loading ? (
-				<div className="px-6">
-					<div className="animate-pulse  py-8 space-x-4 flex items-center justify-center">
-						<div className="rounded-lg bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+				<div className="container mx-auto px-6 py-8">
+					{/* Movie Header Skeleton */}
+					<div className="relative animate-pulse mb-8">
+						<div className="rounded-lg bg-gray-700 h-96 lg:h-80 w-full" />
+						<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
+							<div className="animate-pulse h-8 w-2/3 bg-gray-700 rounded-full mb-2"></div>
+							<div className="animate-pulse h-4 w-1/2 bg-gray-700 rounded-full mb-2"></div>
+							<div className="animate-pulse h-4 w-3/4 bg-gray-700 rounded-full"></div>
+						</div>
 					</div>
-					<div className="animate-pulse overflow-scroll py-8 space-x-4 flex items-center justify-center">
-						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+
+					{/* Movie Details Skeleton */}
+					<div className="information bg-[#1c1c1c] p-6 rounded-lg shadow-lg mb-8">
+						<h1 className="text-xl font-semibold text-white mb-4">Movie Details</h1>
+						<div className="grid md:grid-cols-2 gap-4">
+							<div>
+								<div className="animate-pulse h-4 w-1/2 bg-gray-700 rounded-full mb-2"></div>
+								<div className="animate-pulse h-4 w-3/4 bg-gray-700 rounded-full mb-2"></div>
+								<div className="animate-pulse h-4 w-2/3 bg-gray-700 rounded-full mb-2"></div>
+								<div className="animate-pulse h-4 w-1/2 bg-gray-700 rounded-full mb-2"></div>
+							</div>
+							<div>
+								<div className="animate-pulse h-4 w-1/2 bg-gray-700 rounded-full mb-2"></div>
+								<div className="animate-pulse h-4 w-3/4 bg-gray-700 rounded-full mb-2"></div>
+								<div className="animate-pulse h-4 w-2/3 bg-gray-700 rounded-full mb-2"></div>
+								<div className="animate-pulse h-4 w-1/2 bg-gray-700 rounded-full mb-2"></div>
+							</div>
+						</div>
 					</div>
-					<div className="animate-pulse overflow-scroll py-8 space-x-4 flex items-center justify-center">
-						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
-						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
-						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+
+					{/* Story Line Skeleton */}
+					<div className="mb-8 mt-10">
+						<h3 className="text-xl font-semibold mb-2">Story Line</h3>
+						<div className="animate-pulse h-16 w-full bg-gray-700 mb-2 rounded-lg"></div>
+					</div>
+
+					{/* Top Cast Skeleton */}
+					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+						{[...Array(10)].map((_, index) => (
+							<div key={index} className="bg-[#1E1E1E] p-4 rounded-lg flex flex-col items-center">
+								<div className="animate-pulse h-16 w-16 rounded-full mb-2 bg-gray-700"></div>
+								<div className="animate-pulse h-4 w-20 bg-gray-700 mb-2 rounded-full"></div>
+								<div className="animate-pulse h-4 w-16 bg-gray-700 rounded-full"></div>
+							</div>
+						))}
+					</div>
+
+					{/* Images Skeleton */}
+					<div className="w-full mt-10 mb-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+						{[...Array(10)].map((_, index) => (
+							<div key={index} className="w-full bg-slate-100 min-h-32 rounded-lg animate-pulse"></div>
+						))}
 					</div>
 				</div>
 			) : (
@@ -65,7 +106,7 @@ export default function MoviesDetails() {
 							<img
 								loading="lazy"
 								alt="The Last Human Season 1"
-								className="object-left-top object-cover rounded-lg w-full min-h-52 lg:max-h-[40rem]"
+								className="object-left-top object-cover rounded-lg w-full min-h-[25rem] lg:max-h-[40rem]"
 								src={`https://image.tmdb.org/t/p/original/${images?.posters?.slice(0, 1).map((x) => x?.file_path)}`}
 							/>
 							<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
@@ -144,6 +185,7 @@ export default function MoviesDetails() {
 										src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
 										onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
 										alt=""
+										loading="lazy"
 									/>
 									<p className="font-semibold text-center">{item?.original_name}</p>
 									<p className="text-sm text-gray-400 text-center"> {item?.character}</p>

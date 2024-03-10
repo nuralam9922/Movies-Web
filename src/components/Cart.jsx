@@ -20,6 +20,7 @@ function Cart({ movie }) {
 					height="300"
 					width="200"
 					loading="lazy"
+					
 					style={{
 						aspectRatio: '200/300',
 						objectFit: 'cover',
