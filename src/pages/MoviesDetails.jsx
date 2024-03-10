@@ -1,85 +1,175 @@
-import Cart from '../components/Cart';
+import { useParams } from 'react-router-dom';
+import MoviesCaracolSection from '../components/MoviesCaracolSection';
+import { useContext, useEffect, useState } from 'react';
+import { FetchApi } from '../api/FetchApi';
+import { MoviesContext } from '../context/MoviesProvider';
+import Rating from '../components/Rating';
 
 export default function MoviesDetails() {
+	const { id } = useParams();
+	const { genres } = useContext(MoviesContext);
+	const [movieDetails, setMovieDetails] = useState();
+	const [movieType, setMovieType] = useState([]);
+	const [images, setImages] = useState([]);
+	const [video, setVideo] = useState([]);
+	const [cast, setCast] = useState([]);
+	const [similar, setSimilar] = useState([]);
+	const [recommendations, setRecommendations] = useState([]);
+
+	const [loading, setLoading] = useState(true);
+	window.scrollTo(0, 0);
+	
+	useEffect(() => {
+		(async () => {
+			setLoading(true);
+			const response = await FetchApi(`https://api.themoviedb.org/3/movie/${id}?api_key=be1953a7184916165a031846e35362e5`);
+			const response2 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/images?api_key=be1953a7184916165a031846e35362e5`);
+			const response3 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=be1953a7184916165a031846e35362e5`);
+			const response4 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=be1953a7184916165a031846e35362e5`);
+			const response5 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=be1953a7184916165a031846e35362e5`);
+			const response6 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=be1953a7184916165a031846e35362e5`);
+			setSimilar(response4);
+			setRecommendations(response5);
+			setCast(response3.cast);
+			setImages(response2);
+			setMovieDetails(response);
+			setLoading(false);
+		})();
+	}, [id]);
+	function convertRuntimeToDuration(runtime) {
+		const hours = Math.floor(runtime / 60);
+		const minutes = runtime % 60;
+		return `${hours}h ${minutes}m`;
+	}
+
 	return (
-		<div className="bg-[#0f0f0f] min-w-full text-white">
-			<main className="container mx-auto px-6 py-8">
-				<section className="mb-8">
-					<div className="relative">
-						<img
-							alt="The Last Human Season 1"
-							className="w-full h-52 md:h-72 lg:h-[36rem] md:w-[80rem] aspect-square object-left-top object-cover rounded-lg"
-							src="https://lh3.googleusercontent.com/proxy/pJZrH2PcbqUe_QinreoSmI97Khuet-q8D_OcjJUT8OufaXBIoxUVx6ZYQPi27Z1ffPMv3D2c3sSQmAQwvOZgTVLPbpsjDxMpQW2Ly0giIbKXjVCxBZ6XXwS4HfSD2ePnDrTJO09GOUdhorZl55iw8cuZ67XENwGdRL-8p27P"
-						/>
-						<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
-							<h2 className="text-lg md:text-2xl lg:text-4xl font-bold">The Last Human Season 1</h2>
-							<p className="text-xs md:text-sm lg:text-base text-gray-400">20 Episodes - 2024 - Fantasy - Actions</p>
-							<div className="flex mt-2 md:mt-4 space-x-2">
-								<button className="bg-[#E50914] text-xs rounded-sm md:text-base lg:text-lg px-2 py-1 md:px-4 md:py-2">
-									Continue Watching
-								</button>
-								<button className="bg-blue-400 text-xs rounded-sm md:text-base lg:text-lg px-2 py-1 md:px-4 md:py-2">Add Watchlist</button>
+		<div className="bg-[#0f0f0f] min-w-full min-h-screen text-white">
+			{loading ? (
+				<div className="px-6">
+					<div className="animate-pulse  py-8 space-x-4 flex items-center justify-center">
+						<div className="rounded-lg bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+					</div>
+					<div className="animate-pulse overflow-scroll py-8 space-x-4 flex items-center justify-center">
+						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+					</div>
+					<div className="animate-pulse overflow-scroll py-8 space-x-4 flex items-center justify-center">
+						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+						<div className="rounded-lg flex-shrink-0 bg-gray-700 h-[30rem] lg:h-[20rem] w-full" />
+					</div>
+				</div>
+			) : (
+				<main className="container  mx-auto px-6 py-8">
+					<section className="mb-8">
+						<div className="relative ">
+							<img
+								alt="The Last Human Season 1"
+								className="object-left-top object-cover rounded-lg w-full min-h-52 lg:max-h-[30rem]"
+								src={`https://image.tmdb.org/t/p/original/${images?.posters?.slice(0, 1).map((x) => x?.file_path)}`}
+							/>
+							<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
+								<h2 className="text-lg md:text-2xl lg:text-4xl font-bold">{movieDetails?.original_title}</h2>
+								<p className="text-xs md:text-sm lg:text-base text-gray-400">
+									{movieDetails?.genres[0]?.name} - {movieDetails?.genres[1]?.name}
+								</p>
+								<div className="flex justify-between  mt-2 md:mt-4 ">
+									<div className="flex gap-2">
+										<button className="bg-[#E50914] text-xs rounded-sm md:text-base lg:text-lg px-2 py-1 md:px-4 md:py-2">
+											Continue Watching
+										</button>
+										<button className="bg-blue-400 text-xs rounded-sm md:text-base lg:text-lg px-2 py-1 md:px-4 md:py-2">
+											Add Watchlist
+										</button>
+									</div>
+									<div className="relative">
+										<Rating rating={movieDetails?.vote_average} />
+									</div>
+									{/* <div className="text-gray-400 flex items-center justify-start"></div> */}
+								</div>
 							</div>
 						</div>
-					</div>
-				</section>
+					</section>
 
-				<section className="mb-8">
-					<h3 className="text-xl font-semibold mb-2">Story Line</h3>
-					<p className="text-gray-400">
-						“The Last Human” is a science fiction movie based on the upcoming children's book of the same name by Lee Bacon. The story takes
-						place after a robot apocalypse, where humans have been extinct for 30 years. A 12-year-old robot named XR_935 discovers a
-						12-year-old human girl named Emma, who has spent her entire life hiding inside an underground bunker. They form an unlikely
-						friendship and eventually embark on a dangerous voyage together...
-						<button className="text-[#E50914]">More</button>
-					</p>
-				</section>
+					<section className="information bg-[#1c1c1c] p-6 rounded-lg shadow-lg">
+						<h1 className="text-xl font-semibold text-white mb-4">Movie Details</h1>
+						<div className="grid md:grid-cols-2 gap-4">
+							<div>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold w-40 inline-block">Tagline</span> : {movieDetails?.tagline || 'N/A'}
+								</p>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold w-40 inline-block">Status</span> : {movieDetails?.status || 'N/A'}
+								</p>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold w-40 inline-block">Release Date</span> : {movieDetails?.release_date || 'N/A'}
+								</p>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold w-40 inline-block">Runtime</span> :{' '}
+									{convertRuntimeToDuration(movieDetails?.runtime) || 'N/A'}
+								</p>
+							</div>
+							<div className="">
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold inline-block  w-40">Budget</span> : ${movieDetails?.budget || 'N/A'}
+								</p>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold inline-block  w-40">Revenue</span> : ${movieDetails?.revenue || 'N/A'}
+								</p>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold inline-block  w-40">Popularity</span> : {movieDetails?.popularity || 'N/A'}
+								</p>
+								<p className="text-gray-300 mb-2">
+									<span className="font-semibold inline-block  w-40">Vote Count</span> : {movieDetails?.vote_count || 'N/A'}
+								</p>
+							</div>
+						</div>
+					</section>
 
-				<section className="mb-8">
-					<h3 className="text-xl font-semibold mb-2">Top Cast</h3>
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-						{[...Array(10)].map((_, index) => (
-							<div key={index} className="bg-[#1E1E1E] p-4 rounded-lg flex flex-col items-center">
+					<section className="mb-8 mt-10">
+						<h3 className="text-xl font-semibold mb-2">Story Line</h3>
+						<p className="text-gray-400">
+							{movieDetails?.overview}...
+							<button className="text-[#E50914]">More</button>
+						</p>
+					</section>
+
+					<section className="mb-8">
+						<h3 className="text-xl font-semibold mb-5">Top Cast</h3>
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+							{cast?.slice(0, 10).map((item, index) => (
+								<div key={index} className="bg-[#1E1E1E] p-4 rounded-lg flex flex-col items-center">
+									<img
+										className="w-10 h-10 rounded-full mb-2 object-cover object-center"
+										src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
+										onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
+										alt=""
+									/>
+									<p className="font-semibold text-center">{item?.original_name}</p>
+									<p className="text-sm text-gray-400 text-center"> {item?.character}</p>
+								</div>
+							))}
+						</div>
+					</section>
+					<hr className="border-gray-800" />
+					<h1 className="text-xl font-semibold mt-10 mb-10">Images</h1>
+					<div className="w-full   mt-30 mb-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+						{images?.backdrops?.slice(0, 10).map((item) => (
+							<div key={item?.file_path} className="w-full bg-slate-100">
 								<img
-									className="w-10 h-10 rounded-full mb-2"
-									src="https://via.placeholder.com/300"
-									onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
+									loading="lazy"
+									key={item?.file_path}
+									src={`https://image.tmdb.org/t/p/original/${item?.file_path}`}
 									alt=""
+									className="w-full"
 								/>
-								<p className="font-semibold text-center">Dori Doreau</p>
-								<p className="text-sm text-gray-400 text-center">Mike Torello</p>
 							</div>
 						))}
 					</div>
-				</section>
-				<section className="mb-8 related">
-					<div className="flex items-center justify-between">
-						<h1 className="text-xl font-semibold mb-2"> Related</h1>
-						<div className="flex items-center justify-between gap-2">
-							<button className="bg-blue-400 text-xs rounded-sm md:text-base lg:text-lg px-2 py-1 md:px-4 md:py-2">View All</button>
-						</div>
-					</div>
-					<div className="flex overflow-x-auto gap-5 snap-x">
-						{[...Array(10)].map((_, index) => (
-							<Cart key={index} />
-						))}
-					</div>
-				</section>
-				<section className="mb-8 trendingTopic">
-					<div className="flex items-center justify-between">
-						<h1 className="text-xl font-semibold mb-2"> Trending</h1>
-						<div className="flex items-center justify-between gap-2">
-							<button className="bg-blue-400 text-xs rounded-sm md:text-base lg:text-lg px-2 py-1 md:px-4 md:py-2">View All</button>
-						</div>
-					</div>
 
-					<div className="flex overflow-x-auto gap-5 snap-x">
-						{[...Array(10)].map((_, index) => (
-							<Cart key={index} />
-						))}
-					</div>
-				</section>
-			</main>
+					{similar?.length > 0 && <MoviesCaracolSection movieData={similar} moviesType="Similar Movies" />}
+					<MoviesCaracolSection movieData={recommendations} moviesType="recommendations Movies" />
+				</main>
+			)}
 		</div>
 	);
 }

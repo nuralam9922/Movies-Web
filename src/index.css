@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	scroll-behavior: smooth;
+}
 ::-webkit-scrollbar {
 	display: none;
+}
+/* .swiper-wrapper {
+	overflow: visible;
+} */
+/* .swiper {
+	overflow: visible;
+} */
+/* .swiper-container {
+	overflow: visible;
+} */
+/* .scrollbar-hidden::-webkit-scrollbar {
+	display: none;
+} */
+.swiper-pagination {
+	z-index: 99;
+	/* padding: -210px; */
+	position: static !important;
+	/* bottom: -25px; */
+	margin-top: 30px !important;
+	gap: 10px !important;
+}
+.swiper-pagination-bullet {
+	width: 10px !important;
+	height: 10px !important;
+	background-color: rgba(255, 255, 255, 0.5) !important;
+	opacity: 1 !important;
+	margin: 0 5px !important;
+	border-radius: 50% !important;
+	cursor: pointer !important;
+	transition: background-color 0.3s ease;
+	-webkit-transition: background-color 0.3s ease;
+	-moz-transition: background-color 0.3s ease;
+	-ms-transition: background-color 0.3s ease;
+	-o-transition: background-color 0.3s ease;
+	/*mediaqurayformobile*/
+	@media (max-width: 768px) {
+		transform: scale(0.5) !important;
+		-webkit-transform: scale(0.5) !important;
+		-moz-transform: scale(0.5) !important;
+		-ms-transform: scale(0.5) !important;
+		-o-transform: scale(0.5) !important;
+	}
+}
+.swiper-pagination-bullet-active {
+	opacity: 1 !important;
+	background-color: #60a5fa !important;
 }

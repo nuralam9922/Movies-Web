@@ -13,7 +13,7 @@ function Navbar() {
 			<div className="flex items-center justify-center">
 				{/* search icon */}
 				<i className="ri-notification-3-line  text-2xl cursor-pointer text-white mr-1"></i>
-				<i className="ri-menu-line lg:hidden text-3xl cursor-pointer text-white"></i>
+				<i className="ri-menu-line  text-2xl border border-[#ffffff54] p-[2px] px-1 cursor-pointer text-white"></i>
 			</div>
 		</nav>
 	);
