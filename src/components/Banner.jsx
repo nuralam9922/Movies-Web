@@ -40,27 +40,28 @@ function Banner() {
 					<SwiperSlide key={item.id}>
 						<div key={item.id} className="relative w-full mt-10">
 							<div className=" w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]">
-								<img
-									alt="Movie Poster"
-									src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.poster_path}` : ''}
-									onError={(e) => {
-										e.target.src = 'https://via.placeholder.com/1252x550'; // Fallback image
-									}}
-									loading="lazy"
-									className="object-cover object-top  w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
-								/>
+								<Link to={`/movie/${item.id}`}>
+									<img
+										alt="Movie Poster"
+										src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.poster_path}` : ''}
+										onError={(e) => {
+											e.target.src = 'https://via.placeholder.com/1252x550'; // Fallback image
+										}}
+										loading="lazy"
+										className="object-cover object-top  w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
+									/>
+								</Link>
 							</div>
-
 							<div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-r from-black/90 to-transparent" />
 							<div className="absolute bottom-4 left-4">
 								<Link to={`/movie/${item.id}`}>
 									<h1 className="text-white text-[clamp(3rem,7vw,10rem)] leading-[50px] font-bold">
 										{item.original_title || 'Title not available'}
 									</h1>
+									<h2 className="text-white text-[clamp(1rem,3vw,5rem)] lg:mt-2 font-semibold">
+										{item.overview ? item.overview.slice(0, 40) + '...' : 'Overview not available'}
+									</h2>
 								</Link>
-								<h2 className="text-white text-[clamp(1rem,3vw,5rem)] lg:mt-2 font-semibold">
-									{item.overview ? item.overview.slice(0, 40) + '...' : 'Overview not available'}
-								</h2>
 								<button className="text-white bg-blue-400 mt-2 md:py-2 md:px-6 p-2 px-3 text-[15px] md:text-base rounded-md cursor-pointer md:mt-5">
 									Watch Trailer <i className="ri-play-circle-line"></i>
 								</button>
