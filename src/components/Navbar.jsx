@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
 	return (
-		<nav className="flex items-center justify-between p-4 border-b border-gray-800">
+		<nav className="flex items-center  backdrop-blur-sm justify-between p-4 border-b border-gray-800">
 			{/* <MenuIcon className="text-white w-6 h-6" /> */}
 			<Link to={'/'}>
 				<h1 className="font-extrabold capitalize text-3xl text-white">

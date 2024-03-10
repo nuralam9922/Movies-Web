@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FetchApi } from '../api/FetchApi';
+import Search from '../components/Search';
 
 export default function Movies() {
 	const { quarry } = useParams();
@@ -108,6 +109,7 @@ export default function Movies() {
 						// Display message when no search results are found
 						<div className="flex flex-col h-screen items-center">
 							<h1 className="text-[calc(100vh - _theme(spacing.8))]">Sorry no results found for "{quarry}" go back and try again</h1>
+							<Search />
 							<Link className="text-center p-2 px-20 rounded-full mt-5 bg-blue-400" to={'/'}>
 								Back
 							</Link>
