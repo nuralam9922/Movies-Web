@@ -6,7 +6,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 function ViewAll() {
 	useEffect(() => {
-		console.log('useEffect called');
 		window.scrollTo(0, 0);
 	}, []);
 	const { id } = useParams();

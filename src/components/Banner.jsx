@@ -10,6 +10,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { MoviesContext } from '../context/MoviesProvider';
 import { Link } from 'react-router-dom';
 import Rating from '../components/Rating';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 function Banner() {
 	const progressCircle = useRef(null);
 	const progressContent = useRef(null);
@@ -40,8 +41,8 @@ function Banner() {
 					<SwiperSlide key={item.id}>
 						<div key={item.id} className="relative w-full mt-10">
 							<div className=" w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]">
-								<Link to={`/movie/${item.id}`}>
-									<img
+								<Link to={`/movie/${item.id}`} className="w-full">
+									{/* <img
 										alt="Movie Poster"
 										src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.poster_path}` : ''}
 										onError={(e) => {
@@ -49,7 +50,19 @@ function Banner() {
 										}}
 										loading="lazy"
 										className="object-cover object-top  w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
-									/>
+									/> */}
+									<div className="w-full">
+										<LazyLoadImage
+											alt="Movie Poster"
+											effect="blur"
+											onError={(e) => {
+												e.target.src = 'https://via.placeholder.com/1252x550'; // Fallback image
+											}}
+											loading="lazy"
+											className="object-cover object-top  w-screen ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
+											src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.poster_path}` : ''}
+										/>
+									</div>
 								</Link>
 							</div>
 							<div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-r from-black/90 to-transparent" />

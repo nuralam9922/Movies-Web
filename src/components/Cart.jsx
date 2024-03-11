@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { MoviesContext } from '../context/MoviesProvider';
 import { Link } from 'react-router-dom';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 function Cart({ movie }) {
 	const { genres } = useContext(MoviesContext);
 	let [genresName, setGenresName] = useState(
@@ -13,23 +14,19 @@ function Cart({ movie }) {
 	return (
 		<div className="space-y-2 flex-shrink-0 text-white duration-200 snap-start py-5">
 			<Link to={`/movie/${movie?.id}`}>
-				<img
-					src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-					alt={movie?.title}
-					className="rounded-md hover:scale-105 duration-300 cursor-pointer"
-					height="300"
-					width="200"
-					loading="lazy"
-					
-					style={{
-						aspectRatio: '200/300',
-						objectFit: 'cover',
-						backgroundColor: '#f0f0f0', // Set background color while loading
-					}}
-					onError={(e) => {
-						e.target.src = 'https://via.placeholder.com/300';
-					}} // Use placeholder image on error
-				/>
+				<div className="bg-zinc-500 backdrop-blur-md bg-opacity-50 rounded-md overflow-hidden" style={{ height: '300px', width: '200px' }}>
+					<LazyLoadImage
+						alt={movie?.title}
+						effect="blur"
+						// className="rounded-md bg-[#f0f0f0] h-full"
+						style={{
+							width: '100%',
+							height: '100%',
+							objectFit: 'cover',
+						}}
+						src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
+					/>
+				</div>
 			</Link>
 			<h3 className="text-lg text-white font-semibold w-52">{movie?.title}</h3>
 			<p className="text-sm text-gray-400 w-40">{movie?.overview.slice(0, 50) + '...'}</p>

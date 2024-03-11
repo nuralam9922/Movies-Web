@@ -1,18 +1,15 @@
 import { useParams } from 'react-router-dom';
 import MoviesCaracolSection from '../components/MoviesCaracolSection';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FetchApi } from '../api/FetchApi';
-import { MoviesContext } from '../context/MoviesProvider';
 import Rating from '../components/Rating';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export default function MoviesDetails() {
 	window.scrollTo(0, 0);
 	const { id } = useParams();
-	const { genres } = useContext(MoviesContext);
 	const [movieDetails, setMovieDetails] = useState();
-	const [movieType, setMovieType] = useState([]);
 	const [images, setImages] = useState([]);
-	const [video, setVideo] = useState([]);
 	const [cast, setCast] = useState([]);
 	const [similar, setSimilar] = useState([]);
 	const [recommendations, setRecommendations] = useState([]);
@@ -27,7 +24,6 @@ export default function MoviesDetails() {
 			const response3 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=be1953a7184916165a031846e35362e5`);
 			const response4 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=be1953a7184916165a031846e35362e5`);
 			const response5 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=be1953a7184916165a031846e35362e5`);
-			const response6 = await FetchApi(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=be1953a7184916165a031846e35362e5`);
 			setSimilar(response4);
 			setRecommendations(response5);
 			setCast(response3.cast);
@@ -102,11 +98,14 @@ export default function MoviesDetails() {
 			) : (
 				<main className="container  mx-auto px-6 py-8">
 					<section className="mb-8">
-						<div className="relative ">
-							<img
-								loading="lazy"
-								alt="The Last Human Season 1"
-								className="object-left-top object-cover rounded-lg w-full min-h-[25rem] lg:max-h-[40rem]"
+						<div className="relative w-full">
+							<LazyLoadImage
+								key={images?.file_path}
+								effect="blur"
+								// style={{
+								// 	aspectRatio: '16 / 9',
+								// }}
+								className="object-center object-cover rounded-lg max-w-[1280px] w-screen min-h-[25rem] lg:max-h-[40rem]"
 								src={`https://image.tmdb.org/t/p/original/${images?.posters?.slice(0, 1).map((x) => x?.file_path)}`}
 							/>
 							<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
@@ -180,12 +179,22 @@ export default function MoviesDetails() {
 						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
 							{cast?.slice(0, 10).map((item, index) => (
 								<div key={index} className="bg-[#1E1E1E] p-4 rounded-lg flex flex-col items-center">
-									<img
+									{/* <img
 										className="w-10 h-10 rounded-full mb-2 object-cover object-center"
 										src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
 										onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
 										alt=""
 										loading="lazy"
+									/> */}
+									<LazyLoadImage
+										key={images?.file_path}
+										effect="blur"
+										style={{
+											aspectRatio: '16 / 9',
+										}}
+										onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
+										className="w-10 h-10 rounded-full mb-2 object-cover object-center"
+										src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
 									/>
 									<p className="font-semibold text-center">{item?.original_name}</p>
 									<p className="text-sm text-gray-400 text-center"> {item?.character}</p>
@@ -197,13 +206,19 @@ export default function MoviesDetails() {
 					<h1 className="text-xl font-semibold mt-10 mb-10">Images</h1>
 					<div className="w-full   mt-30 mb-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
 						{images?.backdrops?.slice(0, 10).map((item) => (
-							<div key={item?.file_path} className="w-full bg-slate-100 min-h-32">
-								<img
+							<div key={item?.file_path} className="w-full bg-zinc-500 bg-opacity-55 min-h-32">
+								{/* <img
 									loading="lazy"
 									key={item?.file_path}
 									src={`https://image.tmdb.org/t/p/original/${item?.file_path}`}
 									alt=""
 									className="w-full h-full object-cover"
+								/> */}
+								<LazyLoadImage
+									key={item?.file_path}
+									effect="blur"
+									className="w-full h-full object-cover"
+									src={`https://image.tmdb.org/t/p/original/${item?.file_path}`}
 								/>
 							</div>
 						))}

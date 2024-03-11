@@ -9,7 +9,7 @@ import { MoviesContext } from '../context/MoviesProvider';
 import { FetchApi } from '../api/FetchApi';
 import { Link } from 'react-router-dom';
 
-function Home() {
+function   Home () {
 	const {
 		trendingMoviesThisWeek,
 		setTrendingMoviesThisWeek,
