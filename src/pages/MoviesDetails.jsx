@@ -6,7 +6,7 @@ import Rating from '../components/Rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export default function MoviesDetails() {
-	window.scrollTo(0, 0);
+	// window.scrollTo(0, 0);
 	const { id } = useParams();
 	const [movieDetails, setMovieDetails] = useState();
 	const [images, setImages] = useState([]);
@@ -96,17 +96,17 @@ export default function MoviesDetails() {
 					</div>
 				</div>
 			) : (
-				<main className="container  mx-auto px-6 py-8">
+				<main className="container  mx-auto px-6 py-8 overflow-hidden">
 					<section className="mb-8">
-						<div className="relative w-full">
+						<div className="relative w-full overflow-hidden h-[25rem]">
 							<LazyLoadImage
 								key={images?.file_path}
 								effect="blur"
 								// style={{
 								// 	aspectRatio: '16 / 9',
 								// }}
-								className="object-center object-cover rounded-lg max-w-[1280px] w-screen min-h-[25rem] lg:max-h-[40rem]"
-								src={`https://image.tmdb.org/t/p/original/${images?.posters?.slice(0, 1).map((x) => x?.file_path)}`}
+								className="object-center object-cover rounded-lg h-[15rem] min-h-[40rem] md:min-h-[30rem] md:h-[35rem] w-screen"
+								src={`https://image.tmdb.org/t/p/original/${images?.backdrops?.slice(0, 1).map((x) => x?.file_path)}`}
 							/>
 							<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent rounded-lg">
 								<h2 className="text-lg md:text-2xl lg:text-4xl font-bold">{movieDetails?.original_title}</h2>
@@ -178,24 +178,19 @@ export default function MoviesDetails() {
 						<h3 className="text-xl font-semibold mb-5">Top Cast</h3>
 						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
 							{cast?.slice(0, 10).map((item, index) => (
-								<div key={index} className="bg-[#1E1E1E] p-4 rounded-lg flex flex-col items-center">
-									{/* <img
-										className="w-10 h-10 rounded-full mb-2 object-cover object-center"
-										src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
-										onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
-										alt=""
-										loading="lazy"
-									/> */}
-									<LazyLoadImage
-										key={images?.file_path}
-										effect="blur"
-										style={{
-											aspectRatio: '16 / 9',
-										}}
-										onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
-										className="w-10 h-10 rounded-full mb-2 object-cover object-center"
-										src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
-									/>
+								<div key={index} className="bg-[#383838] p-4 rounded-lg flex flex-col items-center">
+									<div className="w-10 h-10 rounded-full overflow-hidden bg-slate-300">
+										<LazyLoadImage
+											key={images?.file_path}
+											effect="blur"
+											style={{
+												aspectRatio: '16 / 9',
+											}}
+											onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
+											className="w-10 h-10  object-cover object-center "
+											src={`https://image.tmdb.org/t/p/original${item?.profile_path}`}
+										/>
+									</div>
 									<p className="font-semibold text-center">{item?.original_name}</p>
 									<p className="text-sm text-gray-400 text-center"> {item?.character}</p>
 								</div>
@@ -206,18 +201,12 @@ export default function MoviesDetails() {
 					<h1 className="text-xl font-semibold mt-10 mb-10">Images</h1>
 					<div className="w-full   mt-30 mb-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
 						{images?.backdrops?.slice(0, 10).map((item) => (
-							<div key={item?.file_path} className="w-full bg-zinc-500 bg-opacity-55 min-h-32">
-								{/* <img
-									loading="lazy"
-									key={item?.file_path}
-									src={`https://image.tmdb.org/t/p/original/${item?.file_path}`}
-									alt=""
-									className="w-full h-full object-cover"
-								/> */}
+							<div key={item?.file_path} className="w-full bg-zinc-500 bg-opacity-55 h-60">
 								<LazyLoadImage
 									key={item?.file_path}
 									effect="blur"
-									className="w-full h-full object-cover"
+									className="w-full h-60 object-cover object-center"
+									onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
 									src={`https://image.tmdb.org/t/p/original/${item?.file_path}`}
 								/>
 							</div>

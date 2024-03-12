@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -11,16 +11,24 @@ import { MoviesContext } from '../context/MoviesProvider';
 import { Link } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { FetchApi } from '../api/FetchApi';
 function Banner() {
 	const progressCircle = useRef(null);
 	const progressContent = useRef(null);
 	const { trendingMoviesThisWeek } = useContext(MoviesContext);
+	const [imageUrl, setImageUrl] = useState();
 	const onAutoplayTimeLeft = (s, time, progress) => {
 		progressCircle.current.style.setProperty('--progress', 1 - progress);
 		progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
-		// console.log(time, progress);
 	};
-
+	console.log(trendingMoviesThisWeek);
+	useEffect(() => {
+		(async () => {
+			const response2 = await FetchApi(`https://api.themoviedb.org/3/movie/792307/images?api_key=be1953a7184916165a031846e35362e5`);
+			console.log(response2.backdrops[0].file_path);
+			setImageUrl(response2);
+		})();
+	}, []);
 	return (
 		<>
 			<Swiper
@@ -42,15 +50,6 @@ function Banner() {
 						<div key={item.id} className="relative w-full mt-10">
 							<div className=" w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]">
 								<Link to={`/movie/${item.id}`} className="w-full">
-									{/* <img
-										alt="Movie Poster"
-										src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.poster_path}` : ''}
-										onError={(e) => {
-											e.target.src = 'https://via.placeholder.com/1252x550'; // Fallback image
-										}}
-										loading="lazy"
-										className="object-cover object-top  w-full ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
-									/> */}
 									<div className="w-full">
 										<LazyLoadImage
 											alt="Movie Poster"
@@ -59,8 +58,9 @@ function Banner() {
 												e.target.src = 'https://via.placeholder.com/1252x550'; // Fallback image
 											}}
 											loading="lazy"
-											className="object-cover object-top  w-screen ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
-											src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.poster_path}` : ''}
+											className=" object-cover aspect-square w-screen ob min-h-[40rem] md:min-h-[30rem] md:h-[35rem]"
+											// src={`https://image.tmdb.org/t/p/w700/3mpgltEMgPf8zFtPnAWdDVN8ZT1.jpg`}
+											src={item?.poster_path ? `https://image.tmdb.org/t/p/original${item?.backdrop_path}` : ''}
 										/>
 									</div>
 								</Link>

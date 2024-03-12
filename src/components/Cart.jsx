@@ -14,7 +14,7 @@ function Cart({ movie }) {
 	return (
 		<div className="space-y-2 flex-shrink-0 text-white duration-200 snap-start py-5">
 			<Link to={`/movie/${movie?.id}`}>
-				<div className="bg-zinc-500 backdrop-blur-md bg-opacity-50 rounded-md overflow-hidden" style={{ height: '300px', width: '200px' }}>
+				<div className="bg-zinc-500 backdrop-blur-md bg-opacity-50 rounded-md overflow-hidden" style={{ height: '300px', width: '200px' }}> 
 					<LazyLoadImage
 						alt={movie?.title}
 						effect="blur"
