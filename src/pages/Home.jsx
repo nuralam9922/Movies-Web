@@ -9,7 +9,7 @@ import { MoviesContext } from '../context/MoviesProvider';
 import { FetchApi } from '../api/FetchApi';
 import { Link } from 'react-router-dom';
 
-function   Home () {
+function Home() {
 	const {
 		trendingMoviesThisWeek,
 		setTrendingMoviesThisWeek,
@@ -136,9 +136,9 @@ function   Home () {
 					{/* make a semiler section for hindi movies but this in dependent section not any component custom*/}
 					<hr className="my-8" />
 					<h1 className="text-xl font-bold mb-4">Trending Hindi Movies</h1>
-					<section className="w-full grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+					<section className="w-full grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
 						{/* Actual Cart component */}
-						{hindiMovies?.results.slice(0, 10).map((item, index) => (
+						{hindiMovies?.results.slice(0, 12).map((item, index) => (
 							<Cart key={index + Math.random} movie={item} />
 						))}
 					</section>
@@ -147,7 +147,7 @@ function   Home () {
 					</Link>
 					<hr className="my-8" />
 					<h1 className="text-xl font-bold mb-4">Trending Bengali Movies</h1>
-					<section className="w-full grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+					<section className="w-full grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
 						{/* Actual Cart component */}
 						{bengaliMovies?.results.slice(0, 10).map((item, index) => (
 							<Cart key={index + Math.random} movie={item} />

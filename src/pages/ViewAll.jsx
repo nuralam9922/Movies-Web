@@ -26,7 +26,10 @@ function ViewAll() {
 			}
 
 			const response = await FetchApi(url);
-			setMovies((prevMovies) => [...prevMovies, ...response.results]);
+			setMovies((prevMovies) => {
+				const newMovies = response.results.filter((newMovie) => !prevMovies.some((prevMovie) => prevMovie.id === newMovie.id));
+				return [...prevMovies, ...newMovies];
+			});
 			if (response.results.length === 0 || response.results.length < 20) {
 				setHasMore(false); // Assuming 20 is the page size
 			}
