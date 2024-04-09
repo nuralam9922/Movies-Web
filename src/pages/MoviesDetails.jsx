@@ -16,6 +16,11 @@ export default function MoviesDetails() {
 
 	const [loading, setLoading] = useState(true);
 
+		useEffect(() => {
+			window.scrollTo(0, 0);
+		}, [id]);
+
+
 	useEffect(() => {
 		(async () => {
 			setLoading(true);
